@@ -1,0 +1,89 @@
+/* Container styling */
+.container {
+    max-width: 1200px; /* Set a maximum width for the container */
+    margin: auto; /* Center the container */
+    padding: 20px; /* Add padding around the container */
+}
+
+/* Heading styling */
+h1 {
+    color: #343a40; /* Darker text color for the heading */
+    font-size: 2.5rem; /* Larger font size for the heading */
+}
+
+/* Table styling */
+.table {
+    background-color: #ffffff; /* White background for the table */
+    border-radius: 8px; /* Rounded corners */
+    overflow: hidden; /* Prevent overflow */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Table header styling */
+.thead-dark {
+    background-color: #343a40; /* Dark background for the header */
+    color: white; /* White text for the header */
+}
+
+/* Table row hover effect */
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1; /* Light gray background on hover */
+}
+
+/* Button styling */
+.btn {
+    padding: 8px 12px; /* Padding for buttons */
+    border-radius: 4px; /* Rounded corners */
+    font-size: 0.9em; /* Font size for buttons */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transition for background color and transform */
+}
+
+/* Outline button styling */
+.btn-outline-primary {
+    color: #007bff; /* Primary color */
+    border-color: #007bff; /* Border color */
+}
+
+/* Outline button hover effect */
+.btn-outline-primary:hover {
+    background-color: #007bff; /* Primary color on hover */
+    color: white; /* White text on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+/* Profile image styling */
+.profile-image {
+    width: 50px; /* Original width */
+    height: 60px; /* Original height */
+    transition: transform 0.3s ease; /* Smooth transition for the transform property */
+}
+
+/* Hover effect */
+.profile-image:hover {
+    transform: scale(1.5); /* Scale the image to 1.5 times its original size */
+    z-index: 10; /* Bring the image to the front */
+}
+
+/* Ensure both buttons have the same size and prevent text overflow */
+.btn-outline-primary, .btn-outline-danger {
+    width: 100%; /* Buttons will take full width */
+    display: inline-block; /* Inline-block to stay side by side */
+    box-sizing: border-box; /* Include padding and border in width calculation */
+    padding: 10px 16px; /* Adjust padding for balance */
+    text-align: center; /* Ensure text is centered */
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Ensure the text stays within the button */
+    text-overflow: ellipsis; /* Show ellipsis if the text overflows */
+}
+
+/* Optional: Adjust padding and margin for better layout */
+td button {
+    margin-right: 4%; /* Small gap between buttons */
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+/* Button hover effect */
+.btn-outline-primary:hover, .btn-outline-danger:hover {
+    transform: translateY(-2px);
+}

@@ -1,0 +1,354 @@
+<app-navbar></app-navbar>
+<div class="container mt-4">
+  <div class="text-center">
+    <h2>Register Here</h2>
+  </div>
+  <hr />
+  <small>*All fields are mandatory. Please fill out the form carefully.</small>
+  <hr />
+  <form [formGroup]="registerform" (ngSubmit)="onSubmit()">
+    <!-- First Name -->
+    <div class="mb-3">
+      <label for="first_name" class="form-label">First Name*</label>
+      <input
+        type="text"
+        id="first_name"
+        formControlName="first_name"
+        class="form-control"
+        placeholder="Enter your first name"
+        pattern="^[A-Za-z]+(?: [A-Za-z]+)*$"  
+      />
+      <div *ngIf="registerform.controls['first_name'].invalid && registerform.controls['first_name'].touched" class="text-danger small">
+        <div *ngIf="registerform.controls['first_name'].hasError('required')">*First Name is required</div>
+        <div *ngIf="registerform.controls['first_name'].hasError('pattern')">*Only alphabets are allowed, with a single space between words</div>
+        <div *ngIf="registerform.controls['first_name'].hasError('minlength')">*Minimum 3 characters required</div>
+        <div *ngIf="registerform.controls['first_name'].hasError('maxlength')">*Maximum 50 characters allowed</div>
+      </div>
+    </div>
+  
+    
+<hr>
+    <!-- Last Name -->
+    <div class="mb-3">
+      <label for="last_name" class="form-label">Last Name*</label>
+      <input
+        type="text"
+        id="last_name"
+        formControlName="last_name"
+        class="form-control"
+        placeholder="Enter your last name"
+      />
+      <div *ngIf="registerform.controls['last_name'].invalid && registerform.controls['last_name'].touched" class="text-danger small">
+        <div *ngIf="registerform.controls['last_name'].hasError('required')">*Last Name is required</div>
+        <div *ngIf="registerform.controls['last_name'].hasError('pattern')">*Only alphabets are allowed</div>
+        <div *ngIf="registerform.controls['last_name'].hasError('minlength')">*Minimum 3 characters required</div>
+        <div *ngIf="registerform.controls['last_name'].hasError('maxlength')">*Maximum 30 characters allowed</div>
+      </div>
+    </div>
+<hr>
+    <!-- Email -->
+    <div class="mb-3">
+      <label for="email" class="form-label">Email*</label>
+      <input
+        type="email"
+        id="email"
+        formControlName="email"
+        class="form-control"
+        placeholder="Enter your email"
+        (keydown)="preventSpace($event)"
+        
+      />
+      <div *ngIf="registerform.controls['email'].invalid && registerform.controls['email'].touched" class="text-danger small">
+        <div *ngIf="registerform.controls['email'].hasError('required')">*Email is required</div>
+        <!-- <div *ngIf="registerform.controls['email'].hasError('email')">*Enter a valid email address</div> -->
+        <div *ngIf="registerform.controls['email'].hasError('pattern')" >*Enter a valid email address</div>
+      </div>
+    </div>
+
+<hr>
+<div class="mb-3">
+  <label for="user_name" class="form-label">Username*</label>
+  <input
+    id="user_name"
+    type="text"
+    formControlName="user_name"
+    class="form-control"
+    required
+    minlength="3"
+    maxlength="30"
+    placeholder="Enter username"
+    (keydown)="preventSpace($event)"
+
+  />
+    <div *ngIf="registerform.controls['user_name'].invalid && registerform.controls['user_name'].touched" class="text-danger small">
+    <div *ngIf="registerform.controls['user_name'].hasError('required')">*Username is required</div>
+    <div *ngIf="registerform.controls['user_name'].hasError('minlength')">*At least three characters are required</div>
+    <div *ngIf="registerform.controls['user_name'].hasError('maxlength')">*You exceeded the maximum length</div>
+  </div>
+</div>
+<hr>
+    <!-- Gender Field -->
+    <div class="mb-3">
+      <label class="form-label">Gender*</label>
+      <div class="d-flex">
+        
+          <label class="me-3">
+            <input type="radio" formControlName="gender" value="male" /> Male
+          </label>
+          <label>
+            <input type="radio" formControlName="gender" value="female" />Female
+          </label>
+
+      
+        <!-- <label>
+          <input type="radio" formControlName="gender" value="Other" /> Others 
+        </label> -->
+      </div>
+      <div *ngIf="registerform.controls['gender'].invalid && registerform.controls['gender'].touched" class="text-danger small">
+        <div *ngIf="registerform.controls['gender'].hasError('required')">*Gender is required</div>
+      </div>
+    </div>
+<hr>
+<!-- Password Field -->
+<div class="mb-3 position-relative">
+  <label for="password" class="form-label">Password*</label>
+  <div class="input-group" style="position: relative; display: flex; align-items: center;">
+    <input
+      id="password"
+      [type]="showPassword ? 'text' : 'password'"
+      formControlName="password"
+      class="form-control"
+      minlength="8"
+      maxlength="20"
+      placeholder="Enter your password"
+      style="padding-right: 40px;"
+    />
+    <button
+      type="button"
+      class="btn"
+      (click)="togglePasswordVisibility()"
+      style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; z-index: 2;"
+    >
+      <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+    </button>
+  </div>
+  
+  <div *ngIf="registerform.controls['password'].invalid && registerform.controls['password'].touched" class="text-danger small">
+    <div *ngIf="registerform.controls['password'].hasError('required')">*Password is required</div>
+    <div *ngIf="registerform.controls['password'].hasError('minlength')">*Password must be at least 8 characters long</div>
+    <div *ngIf="registerform.controls['password'].hasError('pattern')">*Password must contain a specail characters ,Numeric value and Capital Letter </div>
+
+  </div>
+</div>
+
+<!-- Confirm Password Field -->
+<div class="mb-3">
+  <label for="confirmPassword" class="form-label">Confirm Password*</label>
+  <input
+    id="confirmPassword"
+    [type]="showPassword ? 'text' : 'password'"
+    formControlName="confirmPassword"
+    class="form-control"
+    placeholder="Re-enter your password"
+
+  />
+  <div *ngIf="registerform.hasError('passwordMismatch') && registerform.controls['confirmPassword'].touched" class="text-danger small">
+    *Passwords do not match
+  </div>
+</div>
+<hr>
+    <!-- Mobile Field -->
+    <div class="mb-3">
+      <label for="mobile" class="form-label">Mobile*</label>
+      <div class="input-group">
+        <span class="input-group-text">+91</span>
+        <input
+          type="text"
+          id="mobile"
+          formControlName="mobile"
+          class="form-control"
+          required
+          minlength="10"
+          maxlength="10"
+          placeholder="Enter your mobile number"
+        />
+      </div>
+      <div *ngIf="registerform.controls['mobile'].invalid && registerform.controls['mobile'].touched" class="text-danger small">
+        <div *ngIf="registerform.controls['mobile'].hasError('required')">*Mobile number is required</div>
+        <div *ngIf="registerform.controls['mobile'].hasError('pattern')">*Please enter a valid mobile number that contains only Numeric Digits</div>
+      </div>
+    </div>
+    <hr>
+
+      <!-- Country Field -->
+ <div class="mb-3">
+  <label for="country" class="form-label">Country*</label>
+  <select
+
+    id="country"
+    formControlName="country"
+    class="form-control"
+    required
+    placeholder="Enter your country">
+    <option value="" disabled se  lected>select country</option>
+    <option value="India">India</option>
+   
+
+
+  </select>
+    <div *ngIf="registerform.controls['country'].invalid && registerform.controls['country'].touched" class="text-danger small">
+    <div *ngIf="registerform.controls['country'].hasError('required')">*Country is required</div>
+  </div>
+</div>
+<hr>
+
+<!-- State Field -->
+<div class="mb-3">
+  <label for="state" class="form-label">State*</label>
+  <select id="state" formControlName="state" class="form-select" (change)="onStateChange($event)" required>
+    <option value="" disabled selected>Select your state</option>
+    <option value="Madhya Pradesh">Madhya Pradesh</option>
+    <option value="Gujarat">Gujarat</option>
+    <option value="Maharastra" >Maharastra</option>
+  </select>
+  <div *ngIf="registerform.controls['state'].invalid && registerform.controls['state'].touched" class="text-danger small">
+    <div *ngIf="registerform.controls['state'].hasError('required')">*State is required</div>
+  </div>
+</div>
+<hr>
+
+<!-- City Field -->
+<div class="mb-3">
+  <label for="city" class="form-label">City*</label>
+  <select id="city" formControlName="city" class="form-select" required>
+    <option value="" disabled selected>Select your city</option>
+    <option *ngFor="let city of filteredCities" [value]="city">{{ city }}</option>
+  </select>
+  <div *ngIf="registerform.controls['city'].invalid && registerform.controls['city'].touched" class="text-danger small">
+    <div *ngIf="registerform.controls['city'].hasError('required')">City is required</div>
+  </div>
+</div>
+
+<hr>
+
+    <!-- Address Field -->
+    <div class="mb-3">
+      <label for="address" class="form-label">Address*</label>
+      <textarea
+        id="address"
+        type="text"
+        formControlName="address"
+        class="form-control"
+        required
+        minlength="10"
+        maxlength="250"
+        placeholder="Enter your address"
+        (keydown)="preventConsecutiveSpaces($event)"
+        ></textarea>
+        <div *ngIf="registerform.controls['address'].invalid && registerform.controls['address'].touched" class="text-danger small">
+        <div *ngIf="registerform.controls['address'].hasError('required')">*Address is required</div>
+        <div *ngIf="registerform.controls['address'].hasError('minlength')">*Address must be at least 10 characters</div>
+        <div *ngIf="registerform.controls['address'].hasError('maxlength')">*limit exceed </div>
+      </div>
+    </div>
+<hr>
+
+<div class="mb-3">
+  <label for="pincode" class="form-label">Pincode*</label>
+  <input
+    type="text"
+    id="pincode"
+    formControlName="pin_code"
+    class="form-control"
+    required
+    maxlength="6"
+    placeholder="Enter your pincode"
+
+  />
+  <div *ngIf="registerform.controls['pin_code'].invalid && registerform.controls['pin_code'].touched" class="text-danger small">
+    <div *ngIf="registerform.controls['pin_code'].hasError('required')">*Pincode is required</div>
+    <div *ngIf="registerform.controls['pin_code'].hasError('maxlength')">*Pincode must be exactly 6 digits</div>
+    <div *ngIf="registerform.controls['pin_code'].hasError('pattern')">*Pincode must contain only digits</div>
+  </div>
+</div> 
+<hr>
+<!-- role field-->
+<div class="mb-3">
+  <label class="form-label">Role*</label>
+  <div>
+    <label class="me-3">
+      <input type="radio" formControlName="role" value="admin" /> Admin
+    </label>
+    <label>
+      <input type="radio" formControlName="role" value="user" /> User
+    </label>
+  </div>
+  <div *ngIf="registerform.controls['gender'].invalid && registerform.controls['gender'].touched" class="text-danger small">
+    <div *ngIf="registerform.controls['gender'].hasError('required')">Gender is required</div>
+  </div>
+</div>
+<hr>
+
+    <!-- Image Upload Field -->
+<div class="mb-3">
+  <label for="image" class="form-label">Profile Picture*</label>
+  <input
+    type="file"
+    id="image"
+    formControlName="image"
+    class="form-control"
+    (change)="onImageChange($event)"
+    required
+  />
+  <div>
+    <small>*only jpg, jpeg and png type file is allowed. </small>
+  </div>
+  <div>
+    <small> *file more than 5MB is not allowed </small>
+  </div>
+  <div *ngIf="registerform.controls['image'].invalid && registerform.controls['image'].touched" class="text-danger small">
+    <div *ngIf="registerform.controls['image'].hasError('required')">Profile picture is required</div>
+  </div>
+</div>
+<hr>
+    <!-- Short Bio Field -->
+    <div class="mb-3">
+      <label for="shortbio" class="form-label">Short Bio* </label>
+      <textarea
+      id="short_bio"
+      formControlName="short_bio"
+      class="form-control"
+      required
+      minlength="15"
+      maxlength="150"
+      placeholder="Write a short bio"
+      (keydown)="preventConsecutiveSpaces($event)"
+      ></textarea>
+      <div *ngIf="registerform.controls['short_bio'].invalid && registerform.controls['short_bio'].touched" class="text-danger small">
+        <div *ngIf="registerform.controls['short_bio'].hasError('required')">Short bio is required</div>
+        <div *ngIf="registerform.controls['short_bio'].hasError('minlength')">Bio must be at least 15 characters</div>
+        <div *ngIf="registerform.controls['short_bio'].hasError('maxlength')">Bio must not be more then 250 characters</div>
+        
+      </div>
+      <div>
+      <small class="">*write about yourself within 15 to 150 words</small>
+      </div>
+      </div>
+
+<hr>
+<hr>
+    <!-- Submit Button -->
+<div class="mb-3">
+  <button type="submit" class="btn btn-success" [disabled]="registerform.invalid">
+    Submit
+  </button>
+</div>
+
+    <!-- <div class="mb-3">
+      <button *ngIf="!isUserLoggedIn" (click)="login()" class="btn btn-danger">
+        Login
+      </button>
+    </div> -->
+  </form>
+</div>
+<app-footer></app-footer>

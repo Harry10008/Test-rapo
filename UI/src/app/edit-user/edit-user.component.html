@@ -1,0 +1,270 @@
+<app-navbar></app-navbar>
+
+<div class="container mt-5">
+    <h3 class="text-center">Edit User</h3>
+  
+    <form [formGroup]="editForm" (ngSubmit)="onSubmit()" class="mt-4">
+      <!-- First Name -->
+      <div class="mb-3">
+        <label for="first_name" class="form-label">First Name:</label>
+        <input
+          id="first_name"
+          type="text"
+          formControlName="first_name"
+          class="form-control"
+          (keypress)="preventSpecialCharacters($event)"
+          (keypress)="preventSpace($event)"
+          (keypress)="preventNumbers($event)"
+          [ngClass]="{ 'is-invalid': editForm.controls['first_name'].invalid && editForm.controls['first_name'].touched }"
+        />
+        <div *ngIf="editForm.controls['first_name'].invalid && editForm.controls['first_name'].touched" class="invalid-feedback">
+          First Name is required and must be at least 3 and atmost 50 characters long.
+        </div>
+      </div>
+  
+      <!-- Last Name -->
+      <div class="mb-3">
+        <label for="last_name" class="form-label">Last Name:</label>
+        <input
+          id="last_name"
+          type="text"
+          formControlName="last_name"
+          (keypress)="preventSpecialCharacters($event)"
+          (keypress)="preventSpace($event)"
+          (keypress)="preventNumbers($event)"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': editForm.controls['last_name'].invalid && editForm.controls['last_name'].touched }"
+        />
+        <div *ngIf="editForm.controls['last_name'].invalid && editForm.controls['last_name'].touched" class="invalid-feedback">
+          Last Name is required and must be at least 3 and atmost 50 characters long.
+
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="image" class="form-label">Profile Image:</label>
+        <input
+          id="image"
+          type="file"
+          (change)="onFileSelected($event)"
+          class="form-control"
+          accept="image/*"
+        />
+      </div>
+      <!-- Email -->
+      <div class="mb-3">
+        <label for="email" class="form-label">Email:</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': editForm.controls['email'].invalid && editForm.controls['email'].touched }"
+        />
+        <div *ngIf="editForm.controls['email'].invalid && editForm.controls['email'].touched" class="invalid-feedback">
+          A valid email address is required and maximum allowed characters is 100.
+        </div>
+      </div>
+  
+      <!-- Mobile -->
+      <div class="mb-3">
+        <label for="mobile" class="form-label">Mobile:</label>
+        <input
+          id="mobile"
+          type="text"
+          formControlName="mobile"
+          (keypress)="preventAlphabets($event)"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': editForm.controls['mobile'].invalid && editForm.controls['mobile'].touched }"
+        />
+        <div *ngIf="editForm.controls['mobile'].invalid && editForm.controls['mobile'].touched" class="invalid-feedback">
+          Mobile must be a valid 10-digit number.
+        </div>
+      </div>
+  
+      <div class="mb-3">
+        <label for="country" class="form-label">Country:</label>
+        <select
+      
+          id="country"
+          formControlName="country"
+          class="form-control"
+          required
+          placeholder="Enter your country">
+          <option value="" disabled selected>select country</option>
+          <option value="India">India</option>
+        </select>
+          <div *ngIf="editForm.controls['country'].invalid && editForm.controls['country'].touched" class="text-danger small">
+          <div *ngIf="editForm.controls['country'].hasError('required')">*Country is required</div>
+        </div>
+      </div>
+      <hr>
+      
+      <!-- State Field -->
+      
+      <div class="mb-3">
+        <label for="state" class="form-label">State:</label>
+        <select id="state" formControlName="state" class="form-select" required>
+          <option value="" disabled selected>Select your state</option>
+          <option value="Madhya Pradesh">Madhya Pradesh</option>
+          <option value="Gujarat">Gujarat</option>
+          <option value="Maharastra" >Maharastra</option>
+
+    
+        </select>
+        <div *ngIf="editForm.controls['state'].invalid && editForm.controls['state'].touched" class="text-danger small">
+          <div *ngIf="editForm.controls['state'].hasError('required')">*State is required</div>
+        </div>
+      </div>
+      <hr>
+      
+      <!-- City Field -->
+      <div class="mb-3">
+        <label for="city" class="form-label">City:</label>
+        <select id="city" formControlName="city" class="form-select" required>
+          <option value="" disabled selected>Select your city</option>
+          <option value="Bhopal">Bhopal</option>
+          <option value="Indore">Indore</option>
+          <option value="Ujjain">Ujjain</option>
+          <option value="Gandhinagar">Gandhinagar</option>
+          <option value="Ahmedabad">Ahmedabad</option>
+          <option value="Mumbai">Mumbai</option>
+          <option value="Pune">Pune</option>
+          <option value="Nagpur">Nagpur</option>
+        </select>
+        <div *ngIf="editForm.controls['city'].invalid && editForm.controls['city'].touched" class="text-danger small">
+          <div *ngIf="editForm.controls['city'].hasError('required')">City is required</div>
+        </div>
+      </div>
+      
+  <!-- Address Field -->
+  <div class="mb-3">
+    <label for="address" class="form-label">Address:</label>
+    <textarea
+      id="address"
+      type="text"
+      formControlName="address"
+      class="form-control"
+      required
+      minlength="10"
+      maxlength="100"
+      placeholder="Enter your address"
+
+      ></textarea>
+      <div *ngIf="editForm.controls['address'].invalid && editForm.controls['address'].touched" class="text-danger small">
+      <div *ngIf="editForm.controls['address'].hasError('required')">*Address is required</div>
+      <div *ngIf="editForm.controls['address'].hasError('minlength')">*Address must be at least 10 characters</div>
+      <div *ngIf="editForm.controls['address'].hasError('maxlength')">*limit exceed </div>
+    </div>
+  </div>
+
+      <!-- Pincode -->
+      <div class="mb-3">
+        <label for="pin_code" class="form-label">Pincode:</label>
+        <input
+          id="pin_code"
+          type="text"
+          formControlName="pin_code"
+          (keypress)="preventAlphabets($event)"
+          
+          class="form-control"
+          [ngClass]="{ 'is-invalid': editForm.controls['pin_code'].invalid && editForm.controls['pin_code'].touched }"
+        />
+        <div *ngIf="editForm.controls['pin_code'].invalid && editForm.controls['pin_code'].touched" class="invalid-feedback">
+          Pincode must be a valid 6 digit number.
+        </div>
+      </div>
+  
+      <!-- Gender -->
+      <div class="mb-3">
+        <label class="form-label">Gender:</label>
+        <select
+          formControlName="gender"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': editForm.controls['gender'].invalid && editForm.controls['gender'].touched }"
+        >
+          <option value="">Select Gender</option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+        <div *ngIf="editForm.controls['gender'].invalid && editForm.controls['gender'].touched" class="invalid-feedback">
+          Gender is required.
+        </div>
+      </div>
+  
+      <!-- Role -->
+      <div class="mb-3">
+        <label class="form-label">Role:</label>
+        <div class="form-check">
+          <input
+            type="radio"
+            id="role_admin"
+            formControlName="role"
+            value="admin"
+            class="form-check-input"
+            [ngClass]="{ 'is-invalid': editForm.controls['role'].invalid && editForm.controls['role'].touched }"
+          />
+          <label class="form-check-label" for="role_admin">Admin</label>
+        </div>
+        
+        <div class="form-check">
+          <input
+            type="radio"
+            id="role_user"
+            formControlName="role"
+            value="user"
+            class="form-check-input"
+            [ngClass]="{ 'is-invalid': editForm.controls['role'].invalid && editForm.controls['role'].touched }"
+          />
+          <label class="form-check-label" for="role_user">User</label>
+        </div>
+      
+        <div *ngIf="editForm.controls['role'].invalid && editForm.controls['role'].touched" class="invalid-feedback">
+          Role is required.
+        </div>
+      </div>
+      
+  
+      <!-- Short Bio -->
+      <div class="mb-3">
+        <label for="short_bio" class="form-label">Short Bio:</label>
+        <textarea
+          id="short_bio"
+          formControlName="short_bio"
+          class="form-control"
+          [ngClass]="{ 'is-invalid': editForm.controls['short_bio'].invalid && editForm.controls['short_bio'].touched }"
+        ></textarea>
+        <div *ngIf="editForm.controls['short_bio'].invalid && editForm.controls['short_bio'].touched" class="invalid-feedback">
+          Short bio is required.
+        </div>
+        <div *ngIf="editForm.controls['short_bio'].hasError('maxlength')">*Maximum 50 characters  required
+        </div>
+        <div *ngIf="editForm.controls['short_bio'].hasError('minlength')">*minimum 15 characters required
+        </div>
+      </div>
+
+
+ <!-- Verification Status -->
+<div class="mb-3">
+  <label for="isVarified" class="form-label">Verification Status:</label>
+  <div class="form-check">
+    <input
+      type="checkbox"
+      id="isVarified"
+      formControlName="isVarified"
+      class="form-check-input"
+      [checked]="editForm.get('isVarified')?.value === 1"
+      (change)="onVerificationChange($event)"
+    />
+    <label class="form-check-label" for="isVarified">Verified</label>
+  </div>
+</div>
+      <!-- Buttons -->
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid">Save Changes</button>
+        <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+      </div>
+      
+    </form>
+  </div>
+  

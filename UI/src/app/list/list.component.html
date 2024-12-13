@@ -1,0 +1,66 @@
+<app-navbar></app-navbar>
+<div class="container">
+
+  <hr>
+  <b>
+    <h5 class="text-center">Logged In User Details</h5>
+  </b>
+  <div class="text-success">
+    <h3>Welcome: {{ user }}</h3>
+    <h3>Role: {{ userRole }}</h3>
+  </div>
+  <hr>
+  <b>
+    <h4 class="text-center">Users List</h4>
+  </b>
+  <!-- User Table -->
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered table-hover">
+      <thead class="thead-dark">
+        <tr>
+          <th>S.No</th>
+          <th>Display Picture</th>
+          <th (click)="toggleSortOrder('first_name')" style="cursor: pointer;">Name</th>
+          <th>User Name</th>
+          <th>Email</th>
+          <th>Mobile</th>
+          <th>City</th>
+          <th>Pincode</th>
+          <th>Short Bio</th>
+          <th *ngIf="userRole === 'admin'">Is Verified</th>
+          <th *ngIf="userRole === 'admin'">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let userd of storedData | paginate: { itemsPerPage: 5, currentPage: p }; let i = index">
+          <td>{{ i + 1 + (p - 1) * 5 }}</td>
+          <td>
+            <img [src]="'http://localhost:3001/' + userd.imageName" alt="Profile Image" class="img-thumbnail profile-image">
+          </td>
+          <td>{{ userd.first_name }} {{ userd.Last_name }}</td>
+          <td>{{ userd.user_name }}</td>
+          <td>{{ userd.email }}</td>
+          <td>{{ userd.mobile }}</td>
+          <td>{{ userd.city }}</td>
+          <td>{{ userd.pin_code }}</td>
+          <td>{{ userd.short_bio }}</td>
+          <td *ngIf="userRole === 'admin'">{{ userd.verified }}</td>
+          <td>
+            <button *ngIf="userRole === 'admin'" (click)="editUser(userd.id)" class="btn btn-outline-primary">Update</button>
+            <button *ngIf="userRole === 'admin'" (click)="deleteUser(userd.id)" class="btn btn-outline-danger mt-1">Deactivate</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <small>
+      Note - In Is Verified field, 1 indicates Verified user and 0 indicates Not Verified user
+    </small>
+  </div>
+
+  <pagination-controls
+    (pageChange)="p = $event"
+    previousLabel="Prev"
+    nextLabel="Next"
+  ></pagination-controls>
+</div>
+<app-footer></app-footer>

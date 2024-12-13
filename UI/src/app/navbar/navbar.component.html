@@ -1,0 +1,21 @@
+<div class="background">
+  <div *ngIf="isLoggedIn">
+    <div class="d-flex justify-content-between align-items-center p-3">
+      <h1 class="text-center m-0 flex-grow-1"  >Samosys Technologies</h1>
+      <div>
+        <button [routerLink]="['/list']" class="btn btn-primary m-2">List</button>
+        <button (click)="logout()" class="btn btn-danger m-2">Logout</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!isLoggedIn">
+    <div class="d-flex justify-content-between align-items-center p-3">
+      <h1 class="text-center m-0 flex-grow-1">Samosys Technologies</h1>
+      <div>
+        <button [routerLink]="['']" class="btn btn-success m-2">Login</button>
+        <button [routerLink]="['/save']" class="btn btn-success m-2">Signup</button>
+      </div>
+    </div>
+  </div>
+</div>

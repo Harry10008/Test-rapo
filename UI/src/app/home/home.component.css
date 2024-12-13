@@ -1,0 +1,113 @@
+/* General Page Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #faf8f8;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #fcf2f4;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  
+  h3 {
+    color: #343a40;
+    margin-bottom: 20px;
+  }
+  
+  /* Form Fields */
+  label {
+    font-weight: bold;
+    color: #495057;
+  }
+  
+  input, 
+  textarea, 
+  select {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    font-size: 14px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+  
+  textarea {
+    resize: none;
+    height: 100px;
+  }
+  
+  input[type="radio"],
+  input[type="checkbox"] {
+    margin-right: 5px;
+  }
+  
+  /* Error Messages */
+  .text-danger {
+    font-size: 12px;
+    color: #dc3545;
+  }
+  
+  /* Buttons */
+  button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  button.btn-success {
+    background-color: #28a745;
+    color: #fff;
+    width: 100%;
+  }
+  
+  button.btn-danger {
+    background-color: #d41437;
+    color: #fff;
+    width: 100%;
+  }
+
+  button.btn-primary {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  
+  button:hover {
+    opacity: 0.9;
+  }
+  
+  /* Card Body */
+  .card-body {
+    margin-bottom: 15px;
+  }
+  
+  /* Align Center */
+  .text-center {
+    text-align: center;
+  }
+  
+  .mb-3 {
+    margin-bottom: 20px;
+  }
+  
+  .me-3 {
+    margin-right: 15px;
+  }
+  .input-group {
+    position: relative;
+  }
+  
+  .input-group button {
+    border: none;
+    background: transparent;
+    padding: 0;
+  }
