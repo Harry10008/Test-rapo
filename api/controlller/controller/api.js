@@ -8,6 +8,7 @@ import multer from 'multer';
 import { fileURLToPath } from 'url';
 import jwt from 'jsonwebtoken'
 import nodemailer from 'nodemailer'
+import axios from 'axios'
 
 const { compare } = pkg;
 
@@ -282,11 +283,37 @@ export const fetch = (req, res) => {
 
 
 
- export const login = (req, res) => {
-  const { email, password } = req.body;
+export const login = async (req, res) => {
+  const { email, password, recaptcha } = req.body;
 
-  console.log(req.body);
+  // Step 1: Verify CAPTCHA response
+  try {
+    const recaptchaResponse = await axios.post(
+      'https://www.google.com/recaptcha/api/siteverify',
+      null,
+      {
+        params: {
+          secret: '6LeLQ50qAAAAAA6CzLd0UhIoNMvsYg3encA07Hlf',
+          response: recaptcha,
+        },
+      }
+    );
 
+    if (!recaptchaResponse.data.success) {
+      return res.status(400).json({
+        response: 'fail',
+        message: 'Captcha validation failed',
+      });
+    }
+  } catch (err) {
+    console.error('Error verifying CAPTCHA:', err);
+    return res.status(500).json({
+      response: 'fail',
+      message: 'Internal server error during CAPTCHA verification',
+    });
+  }
+
+  // Step 2: Check user credentials
   const query = 'SELECT * FROM usersDetail WHERE email = ?';
   connection.query(query, [email], (err, result) => {
     if (err) {
@@ -306,7 +333,7 @@ export const fetch = (req, res) => {
 
     const storedHash = result[0].password;
 
-    
+    // Step 3: Compare passwords
     bcrypt.compare(password, storedHash, (err, isMatch) => {
       if (err) {
         console.error(err);
@@ -317,26 +344,25 @@ export const fetch = (req, res) => {
       }
 
       if (isMatch) {
-        
         const user = {
-          id: result[0].id, 
+          id: result[0].id,
           email: result[0].email,
-          
         };
 
-        
+        // Step 4: Generate JWT token
         const token = jwt.sign(user, 'keykey', { expiresIn: '10m' });  
 
-        
-        res.status(200).json({
+        // Step 5: Respond with success and send token
+        return res.status(200).json({
           response: 'success',
           message: 'Login successful',
-          token: token, 
-          role:result[0].role,
-          validation:result[0].validation
+          token: token,
+          user:result[0].email,
+          role: result[0].role,
+          validation: result[0].validation,
         });
       } else {
-        res.status(400).json({
+        return res.status(400).json({
           response: 'fail',
           message: 'Invalid password',
         });

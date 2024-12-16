@@ -18,6 +18,9 @@ import { ForgetPasswordComponent } from './forget-password/forget-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { FooterComponent } from './footer/footer.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { RecaptchaModule } from 'ng-recaptcha';
+
+
 
 
 @NgModule({
@@ -39,6 +42,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
+    RecaptchaModule,
     BrowserAnimationsModule,
     NgxPaginationModule,
     ToastrModule.forRoot({

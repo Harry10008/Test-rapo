@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
@@ -10,6 +10,7 @@ import Swal from 'sweetalert2';
 })
 export class NavbarComponent implements OnInit {
 
+  @Input() user: any = null;
   isLoggedIn: boolean = false; 
 
   constructor(

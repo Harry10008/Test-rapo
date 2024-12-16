@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2';
 
+
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',

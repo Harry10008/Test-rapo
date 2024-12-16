@@ -11,8 +11,15 @@ import { HttpClient } from '@angular/common/http';
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
+  recaptchaSiteKey: string = "6LeLQ50qAAAAALtCGU_W2AKAponGC2WgjAzWubLz"; 
+  captchaResponse: string = '';
+  isLoading: boolean = false; 
 
-  constructor(private router: Router, private toastr: ToastrService, private http: HttpClient) {}
+  constructor(
+    private router: Router,
+    private toastr: ToastrService,
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -26,8 +33,8 @@ export class LoginComponent implements OnInit {
         Validators.required,
         Validators.minLength(8),
         Validators.maxLength(20),
-        
       ]),
+      recaptcha: new FormControl('', Validators.required),
     });
   }
 
@@ -36,38 +43,42 @@ export class LoginComponent implements OnInit {
       this.toastr.error('Please fill in all required fields correctly.');
       return;
     }
-  
-    const { email, password } = this.loginForm.value;
-  
+
+    this.isLoading = true;
+
+    const { email, password, recaptcha } = this.loginForm.value;
+
     try {
-      const response = await this.http.post<any>("http://localhost:3001/user/login", { email, password }).toPromise();
-      console.log(response);
-  
+      const response = await this.http
+        .post<any>('http://localhost:3001/user/login', { email, password, recaptcha })
+        .toPromise();
+
       if (response) {
-        // If login is successful, store user data in localStorage
-        localStorage.setItem('user', email);  
-        localStorage.setItem('authToken', response.token);  
+        console.log(response)
+        localStorage.setItem('authToken', response.token);
         localStorage.setItem('role', response.role);
-        console.log(response);
+        localStorage.setItem('user', response.user);
         this.router.navigate(['list']);
         this.toastr.success('User login successful!');
       } else {
         this.toastr.error('Invalid email or password!');
       }
     } catch (error: any) {
-      // Handle error gracefully
-      if (error.status === 400 && error.error && error.error.message) {
-        // Check if the error message is available from the backend
-        this.toastr.error(error.error.message || 'Invalid credentials');
-      } else {
-        // Generic error handling
-        console.error('An error occurred:', error);
-        this.toastr.error('Please verify your login details.');
-      }
+      const errorMsg = error?.error?.message || 'Login failed. Please try again.';
+      this.toastr.error(errorMsg);
+    } finally {
+      this.isLoading = false;
+      this.loginForm.get('recaptcha')?.reset(); 
     }
   }
-  
+
   register(): void {
     this.router.navigate(['save']);
+  }
+
+  onCaptchaResolved(captchaResponse: string): void {
+    console.log('Captcha resolved:', captchaResponse);
+    this.captchaResponse = captchaResponse;
+    this.loginForm.get('recaptcha')?.setValue(captchaResponse);
   }
 }

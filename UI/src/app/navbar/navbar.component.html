@@ -1,14 +1,17 @@
 <div class="background">
+  <!-- For Logged In User -->
   <div *ngIf="isLoggedIn">
     <div class="d-flex justify-content-between align-items-center p-3">
-      <h1 class="text-center m-0 flex-grow-1"  >Samosys Technologies</h1>
+      <h1 class="text-center m-0 flex-grow-1">Samosys Technologies</h1>
       <div>
+        <span *ngIf="user" class="text-success mr-3"> {{ user }}</span> <!-- Display user if available -->
         <button [routerLink]="['/list']" class="btn btn-primary m-2">List</button>
         <button (click)="logout()" class="btn btn-danger m-2">Logout</button>
       </div>
     </div>
   </div>
 
+  <!-- For Non-Logged In User -->
   <div *ngIf="!isLoggedIn">
     <div class="d-flex justify-content-between align-items-center p-3">
       <h1 class="text-center m-0 flex-grow-1">Samosys Technologies</h1>
