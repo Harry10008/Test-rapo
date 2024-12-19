@@ -1,7 +1,6 @@
 import connection from "../connection/connection.js";
 const ensureVerified = (req, res, next) => {
     const { email } = req.body;
-  console.log(email)
     const query = 'SELECT verified FROM usersDetail WHERE email = ?';
     connection.query(query, [email], (err, result) => {
       if (err) {
@@ -13,7 +12,7 @@ const ensureVerified = (req, res, next) => {
           
         return res.status(403).send('Email not verified');
       }
-      console.log("verified user---------------")
+      
       next();
     });
   };
