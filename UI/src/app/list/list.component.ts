@@ -108,10 +108,10 @@ export class ListComponent implements OnInit {
   deleteUser(id: any): void {
     Swal.fire({
       title: 'Are you sure?',
-      text: 'Do you really want to Delete?',
+      text: 'Do you really want to Deactivate this user ?',
       icon: 'question',
       showCancelButton: true,
-      confirmButtonText: 'Yes, Delete!',
+      confirmButtonText: 'Yes, Deactivate!',
       cancelButtonText: 'No, Cancel',
       reverseButtons: true,
     }).then((result) => {
@@ -125,7 +125,7 @@ export class ListComponent implements OnInit {
             
           },
           error: (error) => {
-            console.error('Error deleting user:', error);
+            console.error('Error Deactivate user:', error);
           }
         });
         

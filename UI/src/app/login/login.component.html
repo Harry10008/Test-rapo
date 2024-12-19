@@ -39,7 +39,7 @@
       </div>
 
       <!-- reCAPTCHA -->
-      <re-captcha
+      <re-captcha class="d-grid gap-2 m-3"
   [siteKey]="recaptchaSiteKey"
   formControlName="recaptcha"
   (resolved)="onCaptchaResolved($event)">
@@ -47,7 +47,7 @@
 
 
       <!-- Login Button -->
-      <div class="d-grid gap-2 mb-3">
+      <div class="d-grid gap-2 m-3">
         <button 
           type="submit" 
           class="btn btn-primary" 

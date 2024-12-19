@@ -18,7 +18,10 @@ private apiUrl = 'http://localhost:3001/user'
     return this.http.patch(`http://localhost:3001/user/edit/${id}`, userData);
   }
   
-  
+  checkemail(){
+
+  }
+
   verify(token: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/verify/${token}`);
   }

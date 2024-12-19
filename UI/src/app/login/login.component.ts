@@ -43,35 +43,38 @@ export class LoginComponent implements OnInit {
       this.toastr.error('Please fill in all required fields correctly.');
       return;
     }
-
+  
     this.isLoading = true;
-
+  
     const { email, password, recaptcha } = this.loginForm.value;
-
+  
     try {
       const response = await this.http
         .post<any>('http://localhost:3001/user/login', { email, password, recaptcha })
         .toPromise();
-
-      if (response) {
-        console.log(response)
+  
+      if (response.response === 'success') {
         localStorage.setItem('authToken', response.token);
         localStorage.setItem('role', response.role);
         localStorage.setItem('user', response.user);
         this.router.navigate(['list']);
-        this.toastr.success('User login successful!');
+        this.toastr.success('Login successful! ');
       } else {
-        this.toastr.error('Invalid email or password!');
+        this.toastr.error(response.message || 'Unexpected error occurred. Please try again.');
       }
     } catch (error: any) {
-      const errorMsg = error?.error?.message || 'Login failed. Please try again.';
+      console.error('Login error:', error);
+  
+      // Parse backend error messages
+      const errorMsg =
+        error.error?.message || 'Login failed due to an unexpected error. Please try again.';
       this.toastr.error(errorMsg);
     } finally {
       this.isLoading = false;
-      this.loginForm.get('recaptcha')?.reset(); 
+      this.loginForm.get('recaptcha')?.reset();
     }
   }
-
+  
   register(): void {
     this.router.navigate(['save']);
   }

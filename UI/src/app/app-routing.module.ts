@@ -12,18 +12,14 @@ import { ForgetPasswordComponent } from './forget-password/forget-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 const routes: Routes = [
-  {path:'save',component:HomeComponent, canActivate:[LoggedOutGuard]},
-
+  {path:'list',component:ListComponent, canActivate:[LoggedInGuard] },
+  {path: 'edit-user', component: EditUserComponent, canActivate:[LoggedInGuard] },
 
   {path:'',component:LoginComponent, canActivate:[LoggedOutGuard] },
-  {path:'list',component:ListComponent, canActivate:[LoggedInGuard] },
-
-
-
-  {path: 'edit-user', component: EditUserComponent, canActivate:[LoggedInGuard] },
-  {path:'verification-mail', component:VerificationMailComponent},
+  {path:'save',component:HomeComponent, canActivate:[LoggedOutGuard]},
+  {path:'verification-mail', component:VerificationMailComponent, canActivate:[LoggedOutGuard]},
   {path:'forgotPassword',component:ForgetPasswordComponent, canActivate:[LoggedOutGuard]},
-  {path:'resetPassword', component:ResetPasswordComponent}
+  {path:'resetPassword', component:ResetPasswordComponent, canActivate:[LoggedOutGuard]}
 ];
 
 @NgModule({

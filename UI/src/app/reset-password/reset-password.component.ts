@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../api.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-reset-password',
@@ -18,7 +19,8 @@ export class ResetPasswordComponent {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private apiService: ApiService,
-    private router: Router
+    private router: Router,
+    private Toastr: ToastrService
   ) {
     // Initialize the form
     this.resetPasswordForm = this.fb.group(
@@ -64,11 +66,11 @@ export class ResetPasswordComponent {
       const newPassword = this.resetPasswordForm.get('password')?.value;
       this.apiService.resetPassword(this.token, newPassword).subscribe(
         () => {
-          alert('Password successfully reset!');
+          this.Toastr.success('Password successfully reset!');
           this.router.navigate(['']);
         },
         () => {
-          alert('Error resetting password.');
+          this.Toastr.error('Error resetting password.');
         }
       );
     }

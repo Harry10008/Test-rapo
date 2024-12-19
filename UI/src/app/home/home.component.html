@@ -20,7 +20,7 @@
       />
       <div *ngIf="registerform.controls['first_name'].invalid && registerform.controls['first_name'].touched" class="text-danger small">
         <div *ngIf="registerform.controls['first_name'].hasError('required')">*First Name is required</div>
-        <div *ngIf="registerform.controls['first_name'].hasError('pattern')">*Only alphabets are allowed, with a single space between words</div>
+        <div *ngIf="registerform.controls['first_name'].hasError('pattern')">*Only alphabets are allowed </div>
         <div *ngIf="registerform.controls['first_name'].hasError('minlength')">*Minimum 3 characters required</div>
         <div *ngIf="registerform.controls['first_name'].hasError('maxlength')">*Maximum 50 characters allowed</div>
       </div>
@@ -56,15 +56,29 @@
         class="form-control"
         placeholder="Enter your email"
         (keydown)="preventSpace($event)"
-        
+        (blur)="checkEmail()"
+        aria-describedby="emailHelp emailErrorMessages"
       />
-      <div *ngIf="registerform.controls['email'].invalid && registerform.controls['email'].touched" class="text-danger small">
-        <div *ngIf="registerform.controls['email'].hasError('required')">*Email is required</div>
-        <!-- <div *ngIf="registerform.controls['email'].hasError('email')">*Enter a valid email address</div> -->
-        <div *ngIf="registerform.controls['email'].hasError('pattern')" >*Enter a valid email address</div>
+      <div *ngIf="emailError" id="emailHelp" class="text-danger small">
+        {{ emailError }}
+      </div>
+      <div 
+        *ngIf="registerform.controls['email'].invalid && registerform.controls['email'].touched" 
+        id="emailErrorMessages"
+        class="text-danger small"
+      >
+        <div *ngIf="registerform.controls['email'].hasError('required')">
+          
+        </div>
+        <div *ngIf="registerform.controls['email'].hasError('pattern')">
+          *Enter a valid email address
+        </div>
+        <div *ngIf="registerform.controls['email'].hasError('maxlength')">
+          *Maximum allowed limit is 64
+        </div>
       </div>
     </div>
-
+    
 <hr>
 <div class="mb-3">
   <label for="user_name" class="form-label">Username*</label>
@@ -83,7 +97,7 @@
     <div *ngIf="registerform.controls['user_name'].invalid && registerform.controls['user_name'].touched" class="text-danger small">
     <div *ngIf="registerform.controls['user_name'].hasError('required')">*Username is required</div>
     <div *ngIf="registerform.controls['user_name'].hasError('minlength')">*At least three characters are required</div>
-    <div *ngIf="registerform.controls['user_name'].hasError('maxlength')">*You exceeded the maximum length</div>
+    <div *ngIf="registerform.controls['user_name'].hasError('maxlength')">*Maximum allowed limit for this field is 30</div>
   </div>
 </div>
 <hr>
@@ -180,56 +194,70 @@
     </div>
     <hr>
 
-      <!-- Country Field -->
- <div class="mb-3">
+    <!-- Country Field -->
+<div class="mb-3">
   <label for="country" class="form-label">Country*</label>
   <select
-
     id="country"
     formControlName="country"
     class="form-control"
     required
-    placeholder="Enter your country">
-    <option value="" disabled se  lected>select country</option>
+  >
+    <option value="" disabled selected>Select country</option>
     <option value="India">India</option>
-   
-
-
+    <option value="US">US</option>
   </select>
-    <div *ngIf="registerform.controls['country'].invalid && registerform.controls['country'].touched" class="text-danger small">
-    <div *ngIf="registerform.controls['country'].hasError('required')">*Country is required</div>
+  <div
+    *ngIf="registerform.controls['country'].invalid && registerform.controls['country'].touched"
+    class="text-danger small"
+  >
+    <div *ngIf="registerform.controls['country'].hasError('required')">Country is required</div>
   </div>
 </div>
-<hr>
+
+<hr />
 
 <!-- State Field -->
 <div class="mb-3">
   <label for="state" class="form-label">State*</label>
-  <select id="state" formControlName="state" class="form-select" (change)="onStateChange($event)" required>
-    <option value="" disabled selected>Select your state</option>
-    <option value="Madhya Pradesh">Madhya Pradesh</option>
-    <option value="Gujarat">Gujarat</option>
-    <option value="Maharastra" >Maharastra</option>
+  <select
+    id="state"
+    formControlName="state"
+    class="form-control"
+    required
+  >
+    <option value="" disabled selected>Select state</option>
+    <option *ngFor="let state of filteredStates" [value]="state">{{ state }}</option>
   </select>
-  <div *ngIf="registerform.controls['state'].invalid && registerform.controls['state'].touched" class="text-danger small">
-    <div *ngIf="registerform.controls['state'].hasError('required')">*State is required</div>
+  <div
+    *ngIf="registerform.controls['state'].invalid && registerform.controls['state'].touched"
+    class="text-danger small"
+  >
+    <div *ngIf="registerform.controls['state'].hasError('required')">State is required</div>
   </div>
 </div>
-<hr>
+
+<hr />
 
 <!-- City Field -->
 <div class="mb-3">
   <label for="city" class="form-label">City*</label>
-  <select id="city" formControlName="city" class="form-select" required>
-    <option value="" disabled selected>Select your city</option>
+  <select
+    id="city"
+    formControlName="city"
+    class="form-control"
+    required
+  >
+    <option value="" disabled selected>Select city</option>
     <option *ngFor="let city of filteredCities" [value]="city">{{ city }}</option>
   </select>
-  <div *ngIf="registerform.controls['city'].invalid && registerform.controls['city'].touched" class="text-danger small">
+  <div
+    *ngIf="registerform.controls['city'].invalid && registerform.controls['city'].touched"
+    class="text-danger small"
+  >
     <div *ngIf="registerform.controls['city'].hasError('required')">City is required</div>
   </div>
 </div>
-
-<hr>
 
     <!-- Address Field -->
     <div class="mb-3">
